@@ -1,0 +1,64 @@
+---
+title: "2023-02-14_tidytuesday"
+author: "Jurguen Bermudez"
+format: html
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+# Depependencias
+
+```{r setup, include = FALSE}
+library(tidyverse)
+library(tidytuesdayR)
+library(ggthemes)
+library(here)
+```
+
+# Cargando los datos
+
+```{r}
+tt <- tt_load("2023-02-14")
+
+age_gaps <- tt$age_gaps
+```
+
+# Explorando los datos
+
+```{r}
+top_10_directors <- age_gaps %>% 
+  count(director, sort = TRUE) %>% 
+  head(10)
+
+age_gaps_top_10_directors <- age_gaps %>% 
+  filter(director %in% top_10_directores$director,
+         couple_number == 1) %>% 
+  group_by(release_year, director) %>% 
+  summarise(avg_age_gaps = mean(age_difference)) 
+```
+
+# Generando el gráfico
+
+```{r}
+plot_tt_hollywood_age_gap <- age_gaps_top_10_directors %>% 
+  ggplot(aes(x = release_year, 
+             y = avg_age_gaps)) + 
+  geom_point(color = "#237597") +
+  geom_line() + 
+  facet_wrap(~director,
+             ncol = 5) + 
+    ggtitle(label = "Diferencia de edad en promedio de las parejas principales en películas de Hollywood",
+            subtitle = "por año de lazanmiento de los 10 directores más prolíficos") + 
+  theme_fivethirtyeight(base_size = 8)
+```
+
+# Guardando la imagen
+
+```{r}
+plot_tt_hollywood_age_gap %>% 
+  ggsave(filename = "plot_tt_hollywood_age_gap.png",
+    path = here("2023-02-14_tidytuesday"),
+         width = 8, 
+         height = 3)
+```
