@@ -49,7 +49,7 @@ plot_tt_hollywood_age_gap <- age_gaps_top_10_directors %>%
   facet_wrap(~director,
              ncol = 5) + 
     ggtitle(label = "Diferencia de edad en promedio de las parejas principales en películas de Hollywood",
-            subtitle = "por año de lazanmiento de los 10 directores más prolíficos") + 
+            subtitle = "por año de lanzamiento de los 10 directores más prolíficos") + 
   theme_fivethirtyeight(base_size = 8)
 ```
 
